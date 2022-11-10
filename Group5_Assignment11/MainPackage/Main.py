@@ -4,15 +4,19 @@ Documentation
 import json
 import requests     
 
-response = requests.get('https://api.nasa.gov/neo/rest/v1/feed?start_date=2015-09-07&end_date=2015-09-08&api_key=j6CZh5icY9RFhZfRZoklyVmQRhCFrLBb06i8CihV')
+response = requests.get('https://api.nasa.gov/neo/rest/v1/neo/3553060?api_key=j6CZh5icY9RFhZfRZoklyVmQRhCFrLBb06i8CihV')
 json_string = response.content
     
 parsed_json = json.loads(json_string)
 
-total = parsed_json['element_count']
+#total = parsed_json['estimated_diameter'] --- Might not need this
 
-for solHours in parsed_json['near_earth_objects']:    
-    print (solHours)
+# Shows the distance of an asteroid away from Earth in different units (first in the list)
+print(parsed_json['close_approach_data'][0]['miss_distance'])
+
+# Shows data on asteroids that closely approached Earth
+for closeApproach in parsed_json['close_approach_data']:
+    print (closeApproach)
 
 '''
 def iterate_dictionary(myDictionary):
@@ -26,5 +30,5 @@ def iterate_dictionary(myDictionary):
                 for vv in v:
                     if (isinstance(vv, dict)):
                         iterate_dictionary(vv)
-iterate_dictionary(solHours)
+iterate_dictionary(closeApproach)
 '''
